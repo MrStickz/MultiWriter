@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalDatabase {
 
@@ -50,4 +52,28 @@ public class LocalDatabase {
             throw new RuntimeException(c);
         }
     }
+
+    public List<String> GETLIST(String command, String columnName) {
+        List<String> columnData = new ArrayList<>();
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(command);
+
+            while (resultSet.next()) {
+                String value = resultSet.getString(columnName);
+                columnData.add(value);
+            }
+
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return columnData;
+    }
+
 }
