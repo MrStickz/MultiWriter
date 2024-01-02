@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonData {
@@ -54,6 +55,23 @@ public class JsonData {
 
         return list.contains(value);
 
+    }
+
+    public List<String> StringToList(String input) {
+        // Remove square brackets
+        input = input.substring(1, input.length() - 1);
+
+        // Split by commas
+        String[] items = input.split(",");
+
+        // Trim each element and add to the list
+        List<String> resultList = new ArrayList<>();
+        for (String item : items) {
+            String nItem = item.replaceAll("[\"']", "");
+            resultList.add(nItem.trim());
+        }
+
+        return resultList;
     }
 
 }
